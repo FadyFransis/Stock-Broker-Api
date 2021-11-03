@@ -25,9 +25,10 @@ namespace App.API
 
                     AppDBInitializer.SeedRoles(roleManager);
                     AppDBInitializer.SeedSuperAdminUser(userManager, context);
+                    AppDBInitializer.SeedStock(context);
 
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
                     //TODO: Log error
                 }

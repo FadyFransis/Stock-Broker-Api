@@ -45,29 +45,29 @@ namespace App.Core.Services
 
         }
 
-        public List<AppUserModel> LoadAllUsers()
-        {
-            var appUserModels =  _userManager.Users.Where(x=>x.RecordStatus==Entities.Base.RecordStatus.Enabled).Select(x => new AppUserModel
-            {
-                Id = x.Id,
-                FirstName = x.FirstName,
-                LastName = x.LastName,
-                Email = x.Email,
-                UserName = x.UserName,
-                PhoneNumber = x.PhoneNumber,
-                EmailConfirmed = x.EmailConfirmed,
-                Roles = _userManager.GetRolesAsync(x).Result.FirstOrDefault()
-            }).ToList();
+        //public List<AppUserModel> LoadAllUsers()
+        //{
+        //    var appUserModels =  _userManager.Users.Where(x=>x.RecordStatus==Entities.Base.RecordStatus.Enabled).Select(x => new AppUserModel
+        //    {
+        //        Id = x.Id,
+        //        FirstName = x.FirstName,
+        //        LastName = x.LastName,
+        //        Email = x.Email,
+        //        UserName = x.UserName,
+        //        PhoneNumber = x.PhoneNumber,
+        //        EmailConfirmed = x.EmailConfirmed,
+        //        Roles = _userManager.GetRolesAsync(x).Result.FirstOrDefault()
+        //    }).ToList();
      
-            return appUserModels;
-        }
+        //    return appUserModels;
+        //}
 
-        public async Task<List<AppUserModel>> LoadAllClients()
-        {
-            var appClients =await _userManager.GetUsersInRoleAsync("Client");
-            var appUserModels = _mapper.Map<List<AppUserModel>>(appClients.Where(x=>x.RecordStatus==Entities.Base.RecordStatus.Enabled).ToList());
-            return appUserModels;
-        }
+        //public async Task<List<AppUserModel>> LoadAllClients()
+        //{
+        //    var appClients =await _userManager.GetUsersInRoleAsync("Client");
+        //    var appUserModels = _mapper.Map<List<AppUserModel>>(appClients.Where(x=>x.RecordStatus==Entities.Base.RecordStatus.Enabled).ToList());
+        //    return appUserModels;
+        //}
 
         public AppUserModel GetUserByMobile(string mobile)
         {
@@ -410,7 +410,7 @@ namespace App.Core.Services
                 };
 
                 AppUser updateUser = await _userManager.FindByIdAsync(id);
-                updateUser.RecordStatus = Entities.Base.RecordStatus.Deleted;
+               // updateUser.RecordStatus = Entities.Base.RecordStatus.Deleted;
 
                 var result = await _userManager.UpdateAsync(updateUser);
 
@@ -771,6 +771,16 @@ namespace App.Core.Services
                     Description = ex.Message
                 };
             }
+        }
+
+        public List<AppUserModel> LoadAllUsers()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<List<AppUserModel>> LoadAllClients()
+        {
+            throw new NotImplementedException();
         }
     }
 }

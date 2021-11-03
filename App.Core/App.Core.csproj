@@ -15,6 +15,7 @@
     <Compile Remove="Helper\OrderExtensions.cs" />
     <Compile Remove="Helper\ProductExtensions.cs" />
     <Compile Remove="Interfaces\Services\IProductService.cs" />
+    <Compile Remove="Services\OrderService.cs" />
     <Compile Remove="Services\ProductService.cs" />
   </ItemGroup>
 

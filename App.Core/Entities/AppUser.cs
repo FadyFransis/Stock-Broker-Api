@@ -9,6 +9,12 @@ namespace App.Core.Entities
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
+        public string ForgetPasswordCode { get; set; }
+        public string ActivationCode { get; set; }
+        public string SocialLoginId { get; set; }
+        public string ImageUrl { get; set; }
+        //  public int Age { get; set; }
+        public DateTime DateAdded { get; set; }
 
     }
 }
