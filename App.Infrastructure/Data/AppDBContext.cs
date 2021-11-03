@@ -17,15 +17,11 @@ namespace App.Infrastructure.Data
         }
 
         public DbSet<AppUser> AppUser { get; set; }
-
         public DbSet<AppSetting> AppSetting{ get; set; }
-
-        public DbSet<Product> Product { get; set; }
- 
-
-        public DbSet<UserAddressBook> UserAddressBook { get; set; }
+        public DbSet<Broker> Broker { get; set; }
         public DbSet<Order> Order { get; set; }
-        public DbSet<OrderItem> OrderItem { get; set; }
+        public DbSet<Person> Person { get; set; }
+        public DbSet<Stock> Stock { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var typesToRegister = Assembly.GetExecutingAssembly().GetTypes()
@@ -38,10 +34,10 @@ namespace App.Infrastructure.Data
             }
 
             modelBuilder.Entity<AppSetting>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled);
-            modelBuilder.Entity<Product>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled  );
-             modelBuilder.Entity<UserAddressBook>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled);
+            modelBuilder.Entity<Broker>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled  );
+             modelBuilder.Entity<Stock>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled);
            modelBuilder.Entity<Order>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled);
-            modelBuilder.Entity<OrderItem>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled);
+            modelBuilder.Entity<Person>().HasQueryFilter(e => e.RecordStatus == Core.Entities.Base.RecordStatus.Enabled);
             base.OnModelCreating(modelBuilder);
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

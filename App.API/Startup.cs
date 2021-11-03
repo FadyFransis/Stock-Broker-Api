@@ -263,7 +263,6 @@ namespace App.API
 
             services.AddScoped<IAppUserManagerService, AppUserManagerService>();
  
-            services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
 
         }
