@@ -6,7 +6,6 @@ namespace App.API.DTOs
     {
         public List<ProductDetailsDTO> Products { get; set; }
         public List<CategoryProductsCountDTO> Categories { get; set; }
-        public List<BrandProductsCountDTO> Brands { get; set; }
         public decimal MinPrice { get; set; }
         public decimal MaxPrice { get; set; }
         public int SpecialDealsProducts { get; set; }

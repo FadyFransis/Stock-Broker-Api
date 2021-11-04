@@ -16,13 +16,13 @@ using System.Threading.Tasks;
 
 namespace App.API.Controllers
 {
-    public class BrokerControlller : ControllerBase
+    public class BrokerController : ControllerBase
     {
         private readonly IBrokerService _service;
         private readonly IMapper _mapper;
         protected readonly Ilogger _logger;// = new LoggerService();
 
-        public BrokerControlller(Ilogger logger, IMapper mapper, IBrokerService brokerService)
+        public BrokerController(Ilogger logger, IMapper mapper, IBrokerService brokerService)
         {
             _logger = logger;
             _service = brokerService;
@@ -44,7 +44,7 @@ namespace App.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Error occured AreaController\\GetAll" + " with EX: " + ex.ToString());
+                _logger.Error("Error occured BrokerController\\GetAll" + " with EX: " + ex.ToString());
                 return HelperClass<List<BrokerDTO>>.CreateResponseModel(null, true, ex.Message);
             }
         }
@@ -62,7 +62,7 @@ namespace App.API.Controllers
             }
             catch (Exception ex)
             {
-                _logger.Error("Error occured AreaController\\GetById" + Id + " with EX: " + ex.ToString());
+                _logger.Error("Error occured BrokerController\\GetById" + Id + " with EX: " + ex.ToString());
                 return HelperClass<BrokerDTO>.CreateResponseModel(null, true, ex.Message);
             }
         }
@@ -87,7 +87,7 @@ namespace App.API.Controllers
 
             catch (Exception ex)
             {
-                _logger.Error("Error occured OrderController\\Add" + " with EX: " + ex.Message);
+                _logger.Error("Error occured BrokerController\\Add" + " with EX: " + ex.Message);
                 return HelperClass<BrokerDTO>.CreateResponseModel(null, true, ex.Message);
             }
         }
@@ -106,7 +106,7 @@ namespace App.API.Controllers
 
             catch (Exception ex)
             {
-                _logger.Error("Error occured OrderController\\UpdateOrder" + " with EX: " + ex.Message);
+                _logger.Error("Error occured BrokerController\\UpdateOrder" + " with EX: " + ex.Message);
                 return HelperClass<BrokerDTO>.CreateResponseModel(null, true, ex.Message);
             }
         }
@@ -118,13 +118,13 @@ namespace App.API.Controllers
             {
 
                 var result = await _service.ChangeStatus(Id,false);
-                var order = HelperClass<BooleanDescriptionResultDTO>.CreateResponseModel(null, false, "Deleted");
-                return order;
+                var broker = HelperClass<BooleanDescriptionResultDTO>.CreateResponseModel(null, false, "Deleted");
+                return broker;
             }
 
             catch (Exception ex)
             {
-                _logger.Error("Error occured OrderController\\CancelOrder" + " with EX: " + ex.Message);
+                _logger.Error("Error occured BrokerController\\CancelOrder" + " with EX: " + ex.Message);
                 return HelperClass<BooleanDescriptionResultDTO>.CreateResponseModel(null, true, ex.Message);
             }
         }

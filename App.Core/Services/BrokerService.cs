@@ -18,15 +18,15 @@ namespace App.Core.Services
     public class BrokerService : GenericService<Broker>, IBrokerService
     {
 
-        private readonly IMailNotification _mailnotification;
-        public BrokerService(IMailNotification mailnotification,
+      
+        public BrokerService(
             IGenericRepository<Broker> oRepository,
             Ilogger logger,
             IMapper mapper)
             : base(oRepository, logger, mapper)
         {
 
-            _mailnotification = mailnotification;
+          
         }
 
         public async Task<IQueryable<BrokerModel>> LoadAllBrokers()

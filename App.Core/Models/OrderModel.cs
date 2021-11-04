@@ -22,7 +22,6 @@ namespace App.Core.Models
         public double DiscountAmount { get; set; }
         public double DeliveryFees { get; set; }
         public double TotalPaid { get; set; }
-        public List<OrderItemModel> OrderItems { get; set; }
         public Payment PaymentMethod { get; set; }
         public string CancellationReason { get; set; }
 

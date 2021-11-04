@@ -258,7 +258,7 @@ namespace App.API
 
             services.AddSingleton<Ilogger, LoggerService>();
             services.AddSingleton<IHashingService, HashingService>();
-
+            services.AddScoped<IBrokerService, BrokerService>();
             services.AddScoped<IMailNotification, MailNotificationService>();
 
             services.AddScoped<IAppUserManagerService, AppUserManagerService>();
