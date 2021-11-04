@@ -9,6 +9,6 @@ namespace App.Core.Entities
     {
         public string Name { get; set; }
         public List <Person> Persons { get; set; }
-        public ICollection<Order>  Orders{ get; set; }
+        public List<Order>  Orders{ get; set; }
     }
 }
