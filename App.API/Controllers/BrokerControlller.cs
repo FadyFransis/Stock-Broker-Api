@@ -18,122 +18,115 @@ namespace App.API.Controllers
 {
     public class BrokerControlller : ControllerBase
     {
-        private readonly IOrderService _service;
+        private readonly IBrokerService _service;
         private readonly IMapper _mapper;
         protected readonly Ilogger _logger;// = new LoggerService();
 
-        public BrokerControlller(Ilogger logger, IMapper mapper, IOrderService OrderService)
+        public BrokerControlller(Ilogger logger, IMapper mapper, IBrokerService brokerService)
         {
             _logger = logger;
-            _service = OrderService;
+            _service = brokerService;
             _mapper = mapper;
           
         }
 
         [HttpGet]
         [Route("api/[controller]/[action]")]
-        public async Task<ResponseModel<List<Broker>>> GetAll()
+        public async Task<ResponseModel<List<BrokerDTO>>> GetAll()
         {
-            var result = await _service.GetAll<Broker>("id", null);
-            return result;
+            try
+            {
+                var result = await _service.LoadAllBrokers();
+                var list = _mapper.Map<List<BrokerDTO>>(result.ToList());
+                var responseModel = HelperClass<List<BrokerDTO>>.CreateResponseModel(list, false, "");
+                return responseModel;
+
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error occured AreaController\\GetAll" + " with EX: " + ex.ToString());
+                return HelperClass<List<BrokerDTO>>.CreateResponseModel(null, true, ex.Message);
+            }
         }
         [HttpGet]
         [Route("api/[controller]/[action]")]
-        public async Task<ResponseModel<Broker>> GetBroker(long Id)
+        public async Task<ResponseModel<BrokerDTO>> GetBroker(long Id)
         {
-            return await _service.GetById<Broker>(Id);
+
+            try
+            {
+                var result = await _service.GetBrokerById(Id);
+                var BrokerDTO = _mapper.Map<BrokerDTO>(result);
+                var Broker = HelperClass<BrokerDTO>.CreateResponseModel(BrokerDTO, false, "");
+                return Broker;
+            }
+            catch (Exception ex)
+            {
+                _logger.Error("Error occured AreaController\\GetById" + Id + " with EX: " + ex.ToString());
+                return HelperClass<BrokerDTO>.CreateResponseModel(null, true, ex.Message);
+            }
         }
         [HttpPost]
         [Route("api/[controller]/[action]")]
-        public async Task<ResponseModelBase<LookUpModelBase>> AddBroker([FromBody] LookUpModelBase model)
+        public async Task<ResponseModel<BrokerDTO>> AddBroker([FromBody] BrokerDTO model)
         {
-            ResponseModelBase<LookUpModelBase> retModel = new ResponseModelBase<LookUpModelBase>()
+            try
             {
-                IsSubmitted = true,
-                IsSubmittedSuccessfully = false
-            };
+                if (!ModelState.IsValid)
+                    return HelperClass<BrokerDTO>.CreateResponseModel(null, true,
+                      string.Join(",", ModelState.Values
+                      .SelectMany(v => v.Errors)
+                      .Select(e => e.ErrorMessage)));
 
-            if (!ModelState.IsValid)
-            {
-                retModel.Errors = Errors.GetErrorsInModelState(ModelState);
-                return retModel;
+                var BrokerModel = _mapper.Map<BrokerModel>(model);
+                var result = await _service.AddBroker(BrokerModel);
+                var BrokerDTO = _mapper.Map<BrokerDTO>(result);
+                var broker = HelperClass<BrokerDTO>.CreateResponseModel(BrokerDTO, false, "");
+                return broker;
             }
 
-            var Broker = _mapper.Map<Broker>(model);
-            var ResponseModel = await _service.Add<Broker, Broker>(Broker);
-
-            if (!ResponseModel.Success)
+            catch (Exception ex)
             {
-                retModel.Errors = Errors.GetErrorsInServiceReponse(ResponseModel.Errors.ToList());
+                _logger.Error("Error occured OrderController\\Add" + " with EX: " + ex.Message);
+                return HelperClass<BrokerDTO>.CreateResponseModel(null, true, ex.Message);
             }
-            else
-            {
-                retModel.IsSubmitted = retModel.IsSubmittedSuccessfully = true;
-                var newmodel = _mapper.Map<LookUpModelBase>(ResponseModel.Result);
-                retModel.Model = newmodel;
-            }
-
-            return retModel;
         }
         [HttpPost]
         [Route("api/[controller]/[action]")]
-        public async Task<ResponseModelBase<LookUpModelBase>> UpdateBroker([FromBody] LookUpModelBase model)
+        public async Task<ResponseModel<BrokerDTO>> UpdateBroker([FromBody] BrokerDTO model)
         {
-            ResponseModelBase<LookUpModelBase> retModel = new ResponseModelBase<LookUpModelBase>()
+            try
             {
-                IsSubmitted = true,
-                IsSubmittedSuccessfully = false
-            };
-            if (!model.Id.HasValue)
-            {
-                retModel.Errors.Add("Id Property is required");
-                return retModel;
+                var BrokerModel = _mapper.Map<BrokerModel>(model);
+                var result = await _service.EditBroker(BrokerModel);
+                var BrokerDTO = _mapper.Map<BrokerDTO>(result);
+                var broker = HelperClass<BrokerDTO>.CreateResponseModel(BrokerDTO, false, "");
+                return broker;
             }
 
-            if (!ModelState.IsValid)
+            catch (Exception ex)
             {
-                retModel.Errors = Errors.GetErrorsInModelState(ModelState);
-                return retModel;
+                _logger.Error("Error occured OrderController\\UpdateOrder" + " with EX: " + ex.Message);
+                return HelperClass<BrokerDTO>.CreateResponseModel(null, true, ex.Message);
             }
-
-            var Broker = _mapper.Map<Broker>(model);
-            var ResponseModel = await _service.Update<Broker, Broker>(model.Id.Value, Broker);
-
-            if (!ResponseModel.Success)
-            {
-                retModel.Errors = Errors.GetErrorsInServiceReponse(ResponseModel.Errors.ToList());
-            }
-            else
-            {
-                retModel.IsSubmitted = retModel.IsSubmittedSuccessfully = true;
-                var newmodel = _mapper.Map<LookUpModelBase>(ResponseModel.Result);
-                retModel.Model = newmodel;
-            }
-
-            return retModel;
         }
         [HttpGet]
         [Route("api/[controller]/[action]")]
-        public async Task<ResponseModelBase<LookUpModelBase>> DeleteBroker(long Id)
+        public async Task<ResponseModel<BooleanDescriptionResultDTO>> DeleteBroker(long Id)
         {
-            ResponseModelBase<LookUpModelBase> retModel = new ResponseModelBase<LookUpModelBase>()
+            try
             {
-                IsSubmitted = true,
-                IsSubmittedSuccessfully = false
-            };
-            //logical delete 
-            var ResponseModel = await _service.ChangeStatus(Id, false);
 
-            if (!ResponseModel.Success)
-            {
-                retModel.Errors = Errors.GetErrorsInServiceReponse(ResponseModel.Errors.ToList());
-            }
-            else
-            {
-                retModel.IsSubmitted = retModel.IsSubmittedSuccessfully = true;
+                var result = await _service.ChangeStatus(Id,false);
+                var order = HelperClass<BooleanDescriptionResultDTO>.CreateResponseModel(null, false, "Deleted");
+                return order;
             }
 
-            return retModel;
+            catch (Exception ex)
+            {
+                _logger.Error("Error occured OrderController\\CancelOrder" + " with EX: " + ex.Message);
+                return HelperClass<BooleanDescriptionResultDTO>.CreateResponseModel(null, true, ex.Message);
+            }
         }
     }
 }
