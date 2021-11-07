@@ -44,7 +44,7 @@ namespace App.API
                 options.AddPolicy(name: "_myAllowSpecificOrigins",
                                   builder =>
                                   {
-                                      builder.WithOrigins("http://localhost:44368", "http://localhost:45520",
+                                      builder.WithOrigins("http://localhost:666", "http://localhost:157",
                                                           "http://localhost:44395", "https://localhost:44395",
                                                           "https://localhost:44368", "https://echoadmin.sbtechnology.host", "https://echotrading.sbtechnology.host")
                                       .AllowAnyMethod().AllowAnyHeader();
@@ -133,7 +133,7 @@ namespace App.API
             {
                 c.SwaggerDoc("v1",
                     new OpenApiInfo
-                    { Title = "Echo API Documentation ", Version = "v1" });
+                    { Title = "Stock API Documentation ", Version = "v1" });
 
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
@@ -225,7 +225,7 @@ namespace App.API
             {
                 c.DocExpansion(Swashbuckle.AspNetCore.SwaggerUI.DocExpansion.None);
                 string swaggerJsonBasePath = string.IsNullOrWhiteSpace(c.RoutePrefix) ? "." : "..";
-                c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "Echo API V1");
+                c.SwaggerEndpoint($"{swaggerJsonBasePath}/swagger/v1/swagger.json", "Stock API V1");
             });
 
         }
@@ -260,7 +260,7 @@ namespace App.API
             services.AddSingleton<IHashingService, HashingService>();
             services.AddScoped<IBrokerService, BrokerService>();
             services.AddScoped<IMailNotification, MailNotificationService>();
-
+            services.AddScoped<IStockService, StockService>();
             services.AddScoped<IAppUserManagerService, AppUserManagerService>();
  
 

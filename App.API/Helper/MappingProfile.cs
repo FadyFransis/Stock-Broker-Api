@@ -36,14 +36,14 @@ namespace App.API.Helper
             CreateMap<AppUser, AppUserModel>().ReverseMap();
             CreateMap<Order, OrderModel>().ReverseMap().ForMember(x => x.Person, act => act.Ignore());
             CreateMap<Broker, BrokerModel>().ReverseMap();
-
+            CreateMap<Stock, StockModel>().ReverseMap();
 
             // map model with dto
             CreateMap<AppUserDTO, AppUserModel>().ReverseMap();
           
           
             CreateMap<BrokerDTO, BrokerModel>().ReverseMap();
-           
+            CreateMap<StockDTO, StockModel>().ReverseMap();
             CreateMap<EditOrderDTO, OrderModel>().ReverseMap();
           
         }
